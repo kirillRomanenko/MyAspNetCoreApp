@@ -1,0 +1,2 @@
+# MyAspNetCoreApp
+metanit textbook project
