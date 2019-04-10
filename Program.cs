@@ -14,11 +14,19 @@ namespace MyAspNetCoreApp
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            // CreateWebHostBuilder(args).Build().Run();
+            var host = new WebHostBuilder()
+                .UseKestrel() //setup a web-server Kestrel
+                .UseContentRoot(Directory.GetCurrentDirectory()) // configure the application root directory
+                .UseIISIntegration() // provide integration with IIS
+                .UseStartup<Startup>() // install the main application file
+                .Build(); // create host
+            host.Run(); // run host
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        //Method for start web application
+        // public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+        //     WebHost.CreateDefaultBuilder(args)
+        //         .UseStartup<Startup>();
     }
 }
