@@ -11,10 +11,10 @@ namespace MyAspNetCoreApp
 {
     public class Startup
     {
-        string name;
+        // string name;
         public Startup()
         {
-            name = "Kirill";
+            // name = "Kirill";
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -27,14 +27,16 @@ namespace MyAspNetCoreApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            int x = 2;
             if (env.IsDevelopment()) // if application status development = true
             {
                 app.UseDeveloperExceptionPage(); // if error print
             }
-
+            app.UseStaticFiles();
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync($"Hello {name}:)");
+                x = x * 2;
+                await context.Response.WriteAsync($"x = {x}");
             });
         }
     }
