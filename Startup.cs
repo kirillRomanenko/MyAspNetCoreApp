@@ -32,7 +32,20 @@ namespace MyAspNetCoreApp
                 app.UseDeveloperExceptionPage(); // if error print
             }
             app.UseStaticFiles();
-            app.Run(Handle);
+            int x = 5;
+            int y = 2;
+            int z = 0;
+            app.Use(async (context, next) => {
+                z = x * y;
+                await next();
+                z = z * 5;
+                await context.Response.WriteAsync($"z = {z}");
+            });
+            // app.Run(Handle);
+            app.Run(async (context) => {
+                z = z * 2;
+                await Task.FromResult(0);
+            });
         }
         private async Task Handle (HttpContext context) {
                 string host = context.Request.Host.Value;
