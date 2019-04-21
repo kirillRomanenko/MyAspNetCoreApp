@@ -27,17 +27,22 @@ namespace MyAspNetCoreApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            int x = 2;
             if (env.IsDevelopment()) // if application status development = true
             {
                 app.UseDeveloperExceptionPage(); // if error print
             }
             app.UseStaticFiles();
-            app.Run(async (context) =>
-            {
-                x = x * 2;
-                await context.Response.WriteAsync($"x = {x}");
-            });
+            app.Run(Handle);
+        }
+        private async Task Handle (HttpContext context) {
+                string host = context.Request.Host.Value;
+                string path = context.Request.Path;
+                string query = context.Request.QueryString.Value;
+                context.Response.ContentType = "text/html;charset=utf-8";
+                await context.Response.WriteAsync($"<h3>Хост:{host}</h3>" + 
+                    $"<h3>Путь запроса:{path}</h3>" +
+                    $"<h3>Параметры строки запроса:{query}</h3>");
+
         }
     }
 }
