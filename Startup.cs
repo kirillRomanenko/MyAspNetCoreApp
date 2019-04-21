@@ -32,20 +32,23 @@ namespace MyAspNetCoreApp
                 app.UseDeveloperExceptionPage(); // if error print
             }
             app.UseStaticFiles();
-            int x = 5;
-            int y = 2;
-            int z = 0;
-            app.Use(async (context, next) => {
-                z = x * y;
-                await next();
-                z = z * 5;
-                await context.Response.WriteAsync($"z = {z}");
-            });
+            // int x = 5;
+            // int y = 2;
+            // int z = 0;
+            // app.Use(async (context, next) => {
+            //     z = x * y;
+            //     await next();
+            //     z = z * 5;
+            //     await context.Response.WriteAsync($"z = {z}");
+            // });
             // app.Run(Handle);
+            app.Map("/index", Index);
             app.Run(async (context) => {
-                z = z * 2;
-                await Task.FromResult(0);
+                // z = z * 2;
+                // await Task.FromResult(0);
+                await context.Response.WriteAsync("404");
             });
+
         }
         private async Task Handle (HttpContext context) {
                 string host = context.Request.Host.Value;
@@ -57,5 +60,11 @@ namespace MyAspNetCoreApp
                     $"<h3>Параметры строки запроса:{query}</h3>");
 
         }
+        private static void Index(IApplicationBuilder app) {
+            app.Run(async context =>
+            {
+                await context.Response.WriteAsync("Index");
+            });
+        }       
     }
 }
